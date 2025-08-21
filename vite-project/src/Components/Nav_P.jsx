@@ -10,8 +10,9 @@ export default function Nav_P() {
         <Container>
           <Navbar.Brand><Link className='navbar-brand' to="/">Quantic Technology</Link></Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link><Link className='nav-link' to="/Transceivers">SFP+</Link></Nav.Link>
-            <Nav.Link><Link className='nav-link' to="/Devices">Equipos</Link></Nav.Link>
+            <Link className='nav-link' to="/Transceivers">SFP+</Link>
+            <Link className='nav-link' to="/Devices">Equipos</Link>
+            <Link className='nav-link' to="/Account">Cuenta</Link>
           </Nav>
         </Container>
       </Navbar>

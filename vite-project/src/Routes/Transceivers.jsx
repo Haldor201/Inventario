@@ -1,7 +1,13 @@
-import React from 'react'
+
+import Table_P from "../Components/Table";
+import AddSFP from "../Components/AddSFP";
 
 export default function Transceivers() {
+  
   return (
-    <div>Transceivers</div>
-  )
+    <>
+      <AddSFP></AddSFP>
+      <Table_P></Table_P>
+    </>
+  );
 }
