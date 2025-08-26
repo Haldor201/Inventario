@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import editSVG from "../icons/edit.svg";
 
-export default function AddSFP() {
+export default function AddSFP({ sfp }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentSerialNumber, setCurrentSerialNumber] = useState("");
 
   const [formData, setFormData] = useState({
-    id:"",
-    partNumber: "",
+    p_n: "",
     descripcion: "",
-    serialNumbers: [],
+    s_n: [],
     cantidad: "",
-    produccion: "",
+    p_a: "",
     marca: "",
   });
 
@@ -29,32 +29,31 @@ export default function AddSFP() {
     e.preventDefault();
 
     // Validación: la cantidad de seriales debe coincidir con la cantidad ingresada
-    if (formData.serialNumbers.length !== parseInt(formData.cantidad, 10)) {
+    if (formData.s_n.length !== parseInt(formData.cantidad, 10)) {
       alert(
-        `Error: El número de seriales agregados (${formData.serialNumbers.length}) debe ser igual a la cantidad (${formData.cantidad}).`
+        `Error: El número de seriales agregados (${formData.s_n.length}) debe ser igual a la cantidad (${formData.cantidad}).`
       );
       return;
     }
 
     // Validación: verificar que ningún serial number sea una cadena vacía (aunque ya lo validamos al agregar)
-    if (formData.serialNumbers.some((serial) => serial.trim() === "")) {
+    if (formData.s_n.some((serial) => serial.trim() === "")) {
       alert("Error: No se permiten serial numbers vacíos.");
       return;
     }
 
     console.log("Datos del formulario:", formData);
-    
 
     setFormData({
-      id:"",
-      partNumber: '',
-      descripcion: '',
-      serialNumbers: [],
-      cantidad: '',
-      produccion: '',
-      marca: ''
+      id: sfp.id,
+      p_n: sfp.p_n,
+      descripcion: sfp.descripcion,
+      s_n: sfp.s_n,
+      cantidad: sfp.cantidad,
+      p_a: sfp.p_a,
+      marca: sfp.marca,
     });
-    setCurrentSerialNumber('');
+    setCurrentSerialNumber("");
 
     handleClose();
   };
@@ -62,19 +61,20 @@ export default function AddSFP() {
     if (currentSerialNumber.trim() !== "") {
       setFormData((prevState) => ({
         ...prevState,
-        serialNumbers: [...prevState.serialNumbers, currentSerialNumber],
+        s_n: [...prevState.s_n, currentSerialNumber],
       }));
-      setCurrentSerialNumber(""); // Limpiar el input después de agregar
+      setCurrentSerialNumber("");
     }
   };
 
   return (
     <>
-      <div className="mt-5 container d-flex justify-content-center">
-        <Button variant="dark" onClick={handleShow}>
-          Agregar{" "}
-        </Button>
-      </div>
+      <img
+        src={editSVG}
+        onClick={handleShow}
+        alt="Editar"
+        className="icon-action me-2 pointer"
+      />
       <Modal
         show={show}
         onHide={handleClose}
@@ -94,8 +94,8 @@ export default function AddSFP() {
               <Col sm="8">
                 <Form.Control
                   type="text"
-                  name="partNumber"
-                  value={formData.partNumber}
+                  name="p_n"
+                  value={formData.p_n}
                   onChange={handleChange}
                 />
               </Col>
@@ -134,7 +134,7 @@ export default function AddSFP() {
       Si el número de seriales agregados es menor que la cantidad especificada,
       mostramos el input y el botón de agregar.
     */}
-            {formData.serialNumbers.length < formData.cantidad && (
+            {formData.s_n.length < formData.cantidad && (
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="4">
                   Serial Number
@@ -159,14 +159,14 @@ export default function AddSFP() {
             )}
 
             {/* Muestra la lista de seriales agregados */}
-            {formData.serialNumbers.length > 0 && (
+            {formData.s_n.length > 0 && (
               <div className="mb-3">
                 <p>
-                  Serials agregados ({formData.serialNumbers.length} de{" "}
+                  Serials agregados ({formData.s_n.length} de{" "}
                   {formData.cantidad}):
                 </p>
                 <ul style={{ maxHeight: "100px", overflowY: "auto" }}>
-                  {formData.serialNumbers.map((serial, index) => (
+                  {formData.s_n.map((serial, index) => (
                     <li key={index}>{serial}</li>
                   ))}
                 </ul>
@@ -181,8 +181,8 @@ export default function AddSFP() {
               <Col sm="8">
                 <Form.Control
                   type="text"
-                  name="produccion"
-                  value={formData.produccion}
+                  name="p_a"
+                  value={formData.p_a}
                   onChange={handleChange}
                 />
               </Col>
