@@ -7,7 +7,7 @@ function Table_P() {
     {
       id: "48Y7EHDWASJDQWIE",
       p_n: "SFP-10G-SR-S=",
-      descipcion: "Transceiver Cisco 10G, 850nm, 300m, MMF",
+      descripcion: "Transceiver Cisco 10G, 850nm, 300m, MMF",
       s_n: ["JSODNEI209", "SJWDNIKPS"],
       cantidad: 2,
       p_a: "A",
@@ -33,7 +33,7 @@ function Table_P() {
           <tr key={sfp.id}>
             <td>{sfp.id}</td>
             <td>{sfp.p_n}</td>
-            <td>{sfp.descipcion}</td>
+            <td>{sfp.descripcion}</td>
             <td>
               {sfp.s_n.map((item) => (
                 <p>{item}</p>
@@ -43,11 +43,7 @@ function Table_P() {
             <td>{sfp.p_a}</td>
             <td>{sfp.marca}</td>
             <td>
-              <img
-                src={editSVG}
-                alt="Editar"
-                className="icon-action me-2"
-              />
+              <EditSFP sfp={sfp}></EditSFP>
               <img
                 src={deleteSVG}
                 alt="Eliminar"

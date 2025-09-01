@@ -28,7 +28,6 @@ export default function AddSFP() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validación: la cantidad de seriales debe coincidir con la cantidad ingresada
     if (formData.s_n.length !== parseInt(formData.cantidad, 10)) {
       alert(
         `Error: El número de seriales agregados (${formData.s_n.length}) debe ser igual a la cantidad (${formData.cantidad}).`
@@ -36,7 +35,6 @@ export default function AddSFP() {
       return;
     }
 
-    // Validación: verificar que ningún serial number sea una cadena vacía (aunque ya lo validamos al agregar)
     if (formData.s_n.some((serial) => serial.trim() === "")) {
       alert("Error: No se permiten serial numbers vacíos.");
       return;
