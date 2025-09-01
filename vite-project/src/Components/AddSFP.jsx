@@ -1,4 +1,4 @@
-import { useState, useEffect,useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { SfpContext } from "../context/SfpContext";
 export default function AddSFP() {
@@ -7,7 +7,7 @@ export default function AddSFP() {
   const handleShow = () => setShow(true);
   const [currentSerialNumber, setCurrentSerialNumber] = useState("");
 
-  const {addSfp,sfpArray} =useContext(SfpContext);
+  const { addSfp, sfpArray } = useContext(SfpContext);
   const [formData, setFormData] = useState({
     id: "",
     p_n: "",
@@ -60,8 +60,15 @@ export default function AddSFP() {
       return;
     }
 
-    addSfp(formData);
-    console.log(sfpArray)
+    // Genera un ID aleatorio para la prueba.
+    // Combina la fecha actual con un número aleatorio para mayor unicidad.
+    const randomId = Date.now().toString(36) + Math.random().toString(36).substring(2);
+
+    // Agrega el nuevo objeto con el ID generado.
+    // Crea una copia de formData y le asigna el nuevo ID antes de agregarlo.
+    addSfp({ ...formData, id: randomId.toLocaleUpperCase() });
+
+    // Limpia el formulario.
     setFormData({
       id: "",
       p_n: "",

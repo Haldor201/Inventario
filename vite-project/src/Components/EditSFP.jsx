@@ -1,22 +1,44 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import editSVG from "../icons/edit.svg";
 
-export default function AddSFP({ sfp }) {
+export default function EditSFP({ sfp }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentSerialNumber, setCurrentSerialNumber] = useState("");
 
   const [formData, setFormData] = useState({
-    id:"",
+    id: "",
     p_n: "",
     descripcion: "",
     s_n: [],
-    cantidad: "",
+    cantidad: 0,
     p_a: "",
     marca: "",
   });
+
+
+  useEffect(() => {
+    if (sfp) {
+      setFormData({
+        id: sfp.id,
+        p_n: sfp.p_n,
+        descripcion: sfp.descripcion,
+        s_n: sfp.s_n || [],
+        cantidad: sfp.cantidad || 0,
+        p_a: sfp.p_a,
+        marca: sfp.marca,
+      });
+    }
+  }, [show]);
+
+  useEffect(() => {
+    setFormData((prevState) => ({
+      ...prevState,
+      cantidad: prevState.s_n.length,
+    }));
+  }, [formData.s_n.length]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,57 +48,37 @@ export default function AddSFP({ sfp }) {
     }));
   };
 
+  const handleAddSerialNumber = () => {
+    const serialTrimmed = currentSerialNumber.trim();
+    if (serialTrimmed !== "") {
+      setFormData((prevState) => ({
+        ...prevState,
+        s_n: [...prevState.s_n, serialTrimmed],
+      }));
+      setCurrentSerialNumber("");
+    }
+  };
+
+  const handleRemoveSerialNumber = (indexToRemove) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      s_n: prevState.s_n.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-
-    if (formData.s_n.length !== parseInt(formData.cantidad, 10)) {
-      alert(
-        `Error: El número de seriales agregados (${formData.s_n.length}) debe ser igual a la cantidad (${formData.cantidad}).`
-      );
-      return;
-    }
 
     if (formData.s_n.some((serial) => serial.trim() === "")) {
       alert("Error: No se permiten serial numbers vacíos.");
       return;
     }
-
-    console.log("Datos del formulario:", formData);
-
-    setFormData({
-      id:"",
-      p_n: '',
-      descripcion: '',
-      s_n: [],
-      cantidad: '',
-      p_a: '',
-      marca: ''
-    });
-    setCurrentSerialNumber("");
+    
+    console.log("Datos del formulario actualizados:", formData);
 
     handleClose();
   };
-  const handleAddSerialNumber = () => {
-    if (currentSerialNumber.trim() !== "") {
-      setFormData((prevState) => ({
-        ...prevState,
-        s_n: [...prevState.s_n, currentSerialNumber],
-      }));
-      setCurrentSerialNumber("");
-    }
-  };
-  useEffect(()=>{
-    setFormData({
-      id:sfp.id,
-      p_n: sfp.p_n,
-      descripcion: sfp.descripcion,
-      s_n: sfp.s_n,
-      cantidad: sfp.cantidad,
-      p_a: sfp.p_a,
-      marca: sfp.marca
-    });
-  },[])
+
   return (
     <>
       <img
@@ -92,11 +94,10 @@ export default function AddSFP({ sfp }) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Añadir Producto</Modal.Title>
+          <Modal.Title>Editar Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            {/* Campo 1: Part Number */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Part Number
@@ -111,7 +112,6 @@ export default function AddSFP({ sfp }) {
               </Col>
             </Form.Group>
 
-            {/* Campo 2: Descripción */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Descripción
@@ -126,7 +126,6 @@ export default function AddSFP({ sfp }) {
               </Col>
             </Form.Group>
 
-            {/* Campo 3: Cantidad */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Cantidad
@@ -136,54 +135,57 @@ export default function AddSFP({ sfp }) {
                   type="number"
                   name="cantidad"
                   value={formData.cantidad}
-                  onChange={handleChange}
+                  readOnly
+                  disabled
                 />
               </Col>
             </Form.Group>
-            {/*
-      Si el número de seriales agregados es menor que la cantidad especificada,
-      mostramos el input y el botón de agregar.
-    */}
-            {formData.s_n.length < formData.cantidad && (
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm="4">
-                  Serial Number
-                </Form.Label>
-                <Col sm="6">
-                  <Form.Control
-                    type="text"
-                    value={currentSerialNumber}
-                    onChange={(e) => setCurrentSerialNumber(e.target.value)}
-                    placeholder="Ingrese Serial"
-                  />
-                </Col>
-                <Col sm="2">
-                  <Button
-                    variant="outline-primary"
-                    onClick={handleAddSerialNumber}
-                  >
-                    +
-                  </Button>
-                </Col>
-              </Form.Group>
-            )}
 
-            {/* Muestra la lista de seriales agregados */}
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Serial Number
+              </Form.Label>
+              <Col sm="6">
+                <Form.Control
+                  type="text"
+                  value={currentSerialNumber}
+                  onChange={(e) => setCurrentSerialNumber(e.target.value)}
+                  placeholder="Ingrese Serial"
+                />
+              </Col>
+              <Col sm="2">
+                <Button
+                  variant="outline-primary"
+                  onClick={handleAddSerialNumber}
+                >
+                  +
+                </Button>
+              </Col>
+            </Form.Group>
+
             {formData.s_n.length > 0 && (
               <div className="mb-3">
-                <p>
-                  Serials agregados ({formData.s_n.length} de{" "}
-                  {formData.cantidad}):
-                </p>
+                <p>Serials agregados ({formData.s_n.length}):</p>
                 <ul style={{ maxHeight: "100px", overflowY: "auto" }}>
                   {formData.s_n.map((serial, index) => (
-                    <li key={index}>{serial}</li>
+                    <li
+                      key={index}
+                      className="d-flex justify-content-between align-items-center"
+                    >
+                      <span>{serial}</span>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleRemoveSerialNumber(index)}
+                      >
+                        -
+                      </Button>
+                    </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {/* Campo 4: Producción o Almacén */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Producción o Almacén
@@ -198,7 +200,6 @@ export default function AddSFP({ sfp }) {
               </Col>
             </Form.Group>
 
-            {/* Campo 5: Marca */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Marca
@@ -218,7 +219,7 @@ export default function AddSFP({ sfp }) {
                 Cerrar
               </Button>
               <Button variant="primary" type="submit">
-                Guardar
+                Guardar Cambios
               </Button>
             </Modal.Footer>
           </Form>
