@@ -1,6 +1,6 @@
 import Table from "react-bootstrap/Table";
-import deleteSVG from "../icons/delete.svg";
 import EditSFP from "../Components/EditSFP.jsx";
+import DeleteSFP from "../Components/DeleteSFP.jsx";
 import { useContext } from "react";
 import {SfpContext} from '../context/SfpContext.jsx'
 function Table_P() {
@@ -36,11 +36,7 @@ function Table_P() {
             <td>{sfp.marca}</td>
             <td>
               <EditSFP sfp={sfp}></EditSFP>
-              <img
-                src={deleteSVG}
-                alt="Eliminar"
-                className="icon-action"
-              />
+              <DeleteSFP id={sfp.id}></DeleteSFP>
             </td>
           </tr>
         ))}
