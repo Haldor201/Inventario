@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import editSVG from "../icons/edit.svg";
 
@@ -9,6 +9,7 @@ export default function AddSFP({ sfp }) {
   const [currentSerialNumber, setCurrentSerialNumber] = useState("");
 
   const [formData, setFormData] = useState({
+    id:"",
     p_n: "",
     descripcion: "",
     s_n: [],
@@ -28,7 +29,7 @@ export default function AddSFP({ sfp }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validación: la cantidad de seriales debe coincidir con la cantidad ingresada
+
     if (formData.s_n.length !== parseInt(formData.cantidad, 10)) {
       alert(
         `Error: El número de seriales agregados (${formData.s_n.length}) debe ser igual a la cantidad (${formData.cantidad}).`
@@ -36,7 +37,6 @@ export default function AddSFP({ sfp }) {
       return;
     }
 
-    // Validación: verificar que ningún serial number sea una cadena vacía (aunque ya lo validamos al agregar)
     if (formData.s_n.some((serial) => serial.trim() === "")) {
       alert("Error: No se permiten serial numbers vacíos.");
       return;
@@ -45,13 +45,13 @@ export default function AddSFP({ sfp }) {
     console.log("Datos del formulario:", formData);
 
     setFormData({
-      id: sfp.id,
-      p_n: sfp.p_n,
-      descripcion: sfp.descripcion,
-      s_n: sfp.s_n,
-      cantidad: sfp.cantidad,
-      p_a: sfp.p_a,
-      marca: sfp.marca,
+      id:"",
+      p_n: '',
+      descripcion: '',
+      s_n: [],
+      cantidad: '',
+      p_a: '',
+      marca: ''
     });
     setCurrentSerialNumber("");
 
@@ -66,7 +66,17 @@ export default function AddSFP({ sfp }) {
       setCurrentSerialNumber("");
     }
   };
-
+  useEffect(()=>{
+    setFormData({
+      id:sfp.id,
+      p_n: sfp.p_n,
+      descripcion: sfp.descripcion,
+      s_n: sfp.s_n,
+      cantidad: sfp.cantidad,
+      p_a: sfp.p_a,
+      marca: sfp.marca
+    });
+  },[])
   return (
     <>
       <img
