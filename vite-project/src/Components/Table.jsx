@@ -1,19 +1,11 @@
 import Table from "react-bootstrap/Table";
 import deleteSVG from "../icons/delete.svg";
 import EditSFP from "../Components/EditSFP.jsx";
-import editSVG from "../icons/edit.svg";
+import { useContext } from "react";
+import {SfpContext} from '../context/SfpContext.jsx'
 function Table_P() {
-  const sfpArray = [
-    {
-      id: "48Y7EHDWASJDQWIE",
-      p_n: "SFP-10G-SR-S=",
-      descripcion: "Transceiver Cisco 10G, 850nm, 300m, MMF",
-      s_n: ["JSODNEI209", "SJWDNIKPS"],
-      cantidad: 2,
-      p_a: "A",
-      marca: "Cisco",
-    },
-  ];
+  const {sfpArray} = useContext(SfpContext);
+  console.log(sfpArray)
   return (
     <Table striped bordered hover className="container mt-3" variant="dark">
       <thead>

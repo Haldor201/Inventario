@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
-
+import { SfpContext } from "../context/SfpContext";
 export default function AddSFP() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentSerialNumber, setCurrentSerialNumber] = useState("");
 
+  const {addSfp,sfpArray} =useContext(SfpContext);
   const [formData, setFormData] = useState({
     id: "",
     p_n: "",
@@ -17,7 +18,7 @@ export default function AddSFP() {
     marca: "",
   });
 
-  // Sincroniza la cantidad con la longitud del array de seriales
+
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
@@ -59,9 +60,8 @@ export default function AddSFP() {
       return;
     }
 
-    console.log("Datos del formulario:", formData);
-
-    // Limpiar el formulario después del envío exitoso
+    addSfp(formData);
+    console.log(sfpArray)
     setFormData({
       id: "",
       p_n: "",
