@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+// src/components/EditSFP.jsx
+import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import editSVG from "../icons/edit.svg";
+import { SfpContext } from '../context/SfpContext';   
 
 export default function EditSFP({ sfp }) {
+  const { editSfp } = useContext(SfpContext); 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,7 +21,6 @@ export default function EditSFP({ sfp }) {
     marca: "",
   });
 
-
   useEffect(() => {
     if (sfp) {
       setFormData({
@@ -31,7 +33,7 @@ export default function EditSFP({ sfp }) {
         marca: sfp.marca,
       });
     }
-  }, [show]);
+  }, [sfp]);
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -73,13 +75,15 @@ export default function EditSFP({ sfp }) {
       alert("Error: No se permiten serial numbers vacíos.");
       return;
     }
-    
-    console.log("Datos del formulario actualizados:", formData);
+
+    // Call the context function to update the data
+    editSfp(formData);
 
     handleClose();
   };
 
   return (
+    // The rest of your component's JSX remains the same
     <>
       <img
         src={editSVG}
@@ -213,7 +217,6 @@ export default function EditSFP({ sfp }) {
                 />
               </Col>
             </Form.Group>
-
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Cerrar

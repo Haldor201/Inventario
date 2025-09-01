@@ -10,7 +10,13 @@ export default function SfpProvider({children}) {
     setSfpArray(prevArray => [...prevArray, newSfp]);
   };
 
-
+    // Function to edit an existing SFP
+  const editSfp = (updatedSfp) => {
+    setSfpArray(prevArray =>
+      // Find the SFP by its ID and replace it with the updated object
+      prevArray.map(sfp => (sfp.id === updatedSfp.id ? updatedSfp : sfp))
+    );
+  };
   useEffect(()=>{
     setSfpArray([{
       id: "48Y7EHDWASJDQWIE",
@@ -24,6 +30,6 @@ export default function SfpProvider({children}) {
 
   },[])
   return (
-    <SfpContext.Provider value={{sfpArray,addSfp}}>{children}</SfpContext.Provider>
+    <SfpContext.Provider value={{sfpArray,addSfp,setSfpArray,editSfp}}>{children}</SfpContext.Provider>
   )
 }
