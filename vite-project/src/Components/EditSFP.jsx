@@ -33,7 +33,7 @@ export default function EditSFP({ sfp }) {
         marca: sfp.marca,
       });
     }
-  }, [sfp]);
+  }, [show]);
 
   useEffect(() => {
     setFormData((prevState) => ({
