@@ -16,6 +16,7 @@ function Table_P() {
           <tr>
             <th>ID</th>
             <th>Part Number</th>
+            <th>Refurbished</th>
             <th>Descripción</th>
             <th>Serial Number</th>
             <th>Cantidad</th>
@@ -29,6 +30,7 @@ function Table_P() {
             <tr key={sfp.id}>
               <td>{sfp.id}</td>
               <td>{sfp.p_n}</td>
+              <td>{sfp.refurbished}</td>
               <td>{sfp.descripcion}</td>
               <td>
                 {sfp.s_n.map((item) => (
