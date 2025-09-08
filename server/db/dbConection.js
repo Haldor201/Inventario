@@ -6,7 +6,6 @@ const uri = "mongodb://192.168.18.32:27017/admin";
 // Connect to the database
 async function connectToDatabase() {
   try {
-    // Remove the options that caused the warnings
     await mongoose.connect(uri);
     console.log("Successfully connected to MongoDB!");
   } catch (error) {
