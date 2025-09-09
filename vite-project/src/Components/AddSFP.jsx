@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
-import { SfpContext } from "../context/SfpContext";
+import { SfpContext, } from "../context/SfpContext";
 
 export default function AddSFP() {
   const [show, setShow] = useState(false);
@@ -60,9 +60,7 @@ export default function AddSFP() {
       return;
     }
 
-    const randomId = Date.now().toString(36) + Math.random().toString(36).substring(2);
-
-    addSfp({ ...formData, id: randomId.toLocaleUpperCase() });
+    addSfp({ ...formData });
 
     setFormData({
       id: "",
@@ -70,8 +68,8 @@ export default function AddSFP() {
       descripcion: "",
       s_n: [],
       cantidad: 0,
-      p_a: "", 
-      state: "", 
+      p_a: "",
+      state: "",
       marca: "",
     });
     setCurrentSerialNumber("");
@@ -221,8 +219,8 @@ export default function AddSFP() {
                   onChange={handleChange}
                 >
                   <option value="">Seleccione...</option>
-                  <option value="P">Producción</option>
-                  <option value="S">Almacén</option>
+                  <option value="Producción">Producción</option>
+                  <option value="Almacén">Almacén</option>
                 </Form.Select>
               </Col>
             </Form.Group>
