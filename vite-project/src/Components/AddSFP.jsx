@@ -1,23 +1,24 @@
 import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { SfpContext } from "../context/SfpContext";
+
 export default function AddSFP() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentSerialNumber, setCurrentSerialNumber] = useState("");
 
-  const { addSfp, sfpArray } = useContext(SfpContext);
+  const { addSfp } = useContext(SfpContext);
   const [formData, setFormData] = useState({
     id: "",
     p_n: "",
     descripcion: "",
     s_n: [],
     cantidad: 0,
-    p_a: "",
+    p_a: "", // Updated from p_a to p_a
+    state: "", // New state field
     marca: "",
   });
-
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -54,28 +55,23 @@ export default function AddSFP() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (formData.s_n.some((serial) => serial.trim() === "")) {
       alert("Error: No se permiten serial numbers vacíos.");
       return;
     }
 
-    // Genera un ID aleatorio para la prueba.
-    // Combina la fecha actual con un número aleatorio para mayor unicidad.
     const randomId = Date.now().toString(36) + Math.random().toString(36).substring(2);
 
-    // Agrega el nuevo objeto con el ID generado.
-    // Crea una copia de formData y le asigna el nuevo ID antes de agregarlo.
     addSfp({ ...formData, id: randomId.toLocaleUpperCase() });
 
-    // Limpia el formulario.
     setFormData({
       id: "",
       p_n: "",
       descripcion: "",
       s_n: [],
       cantidad: 0,
-      p_a: "",
+      p_a: "", 
+      state: "", 
       marca: "",
     });
     setCurrentSerialNumber("");
@@ -148,6 +144,7 @@ export default function AddSFP() {
               </Col>
             </Form.Group>
 
+            {/* Campo 4: Serial Number */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Serial Number
@@ -194,22 +191,43 @@ export default function AddSFP() {
               </div>
             )}
 
-            {/* Campo 4: Producción o Almacén */}
+            {/* Nuevo Campo: Estado (New/Refurbished) */}
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Estado
+              </Form.Label>
+              <Col sm="8">
+                <Form.Select
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                >
+                  <option value="">Seleccione...</option>
+                  <option value="New">New</option>
+                  <option value="Refurbished">Refurbished</option>
+                </Form.Select>
+              </Col>
+            </Form.Group>
+
+            {/* Campo 5: Producción o Almacén */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Producción o Almacén
               </Form.Label>
               <Col sm="8">
-                <Form.Control
-                  type="text"
-                  name="p_a"
+                <Form.Select
+                  name="p_a" // Updated to p_a
                   value={formData.p_a}
                   onChange={handleChange}
-                />
+                >
+                  <option value="">Seleccione...</option>
+                  <option value="P">Producción</option>
+                  <option value="S">Almacén</option>
+                </Form.Select>
               </Col>
             </Form.Group>
 
-            {/* Campo 5: Marca */}
+            {/* Campo 6: Marca */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Marca

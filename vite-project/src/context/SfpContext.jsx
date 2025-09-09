@@ -26,11 +26,11 @@ export default function SfpProvider({children}) {
     setSfpArray([{
       id: "48Y7EHDWASJDQWIE",
       p_n: "SFP-10G-SR-S=",
-      refurbished:false,
+      state:"New",
       descripcion: "Transceiver Cisco 10G, 850nm, 300m, MMF",
       s_n: ["JSODNEI209", "SJWDNIKPS"],
       cantidad: 2,
-      p_a: "A",
+      p_a: "Almacén",
       marca: "Cisco",
     }])
 

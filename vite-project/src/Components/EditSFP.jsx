@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import editSVG from "../icons/edit.svg";
-import { SfpContext } from '../context/SfpContext';   
+import { SfpContext } from '../context/SfpContext';   
 
 export default function EditSFP({ sfp }) {
   const { editSfp } = useContext(SfpContext); 
@@ -15,6 +15,7 @@ export default function EditSFP({ sfp }) {
     id: "",
     p_n: "",
     descripcion: "",
+    state: "", // Added state field
     s_n: [],
     cantidad: 0,
     p_a: "",
@@ -27,13 +28,14 @@ export default function EditSFP({ sfp }) {
         id: sfp.id,
         p_n: sfp.p_n,
         descripcion: sfp.descripcion,
+        state: sfp.state || "New", // Set initial state from sfp.state or default to "New"
         s_n: sfp.s_n || [],
         cantidad: sfp.cantidad || 0,
         p_a: sfp.p_a,
         marca: sfp.marca,
       });
     }
-  }, [show]);
+  }, [show, sfp]);
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -83,7 +85,6 @@ export default function EditSFP({ sfp }) {
   };
 
   return (
-    // The rest of your component's JSX remains the same
     <>
       <img
         src={editSVG}
@@ -189,18 +190,38 @@ export default function EditSFP({ sfp }) {
                 </ul>
               </div>
             )}
+            
+            {/* Nuevo Campo: Estado (New/Refurbished) */}
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Estado
+              </Form.Label>
+              <Col sm="8">
+                <Form.Select
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                >
+                  <option value="New">New</option>
+                  <option value="Refurbished">Refurbished</option>
+                </Form.Select>
+              </Col>
+            </Form.Group>
 
+            {/* Campo: Producción o Almacén */}
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
                 Producción o Almacén
               </Form.Label>
               <Col sm="8">
-                <Form.Control
-                  type="text"
+                <Form.Select
                   name="p_a"
                   value={formData.p_a}
                   onChange={handleChange}
-                />
+                >
+                  <option value="Producción">Producción</option>
+                  <option value="Almacén">Almacén</option>
+                </Form.Select>
               </Col>
             </Form.Group>
 
@@ -217,6 +238,7 @@ export default function EditSFP({ sfp }) {
                 />
               </Col>
             </Form.Group>
+            
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Cerrar
