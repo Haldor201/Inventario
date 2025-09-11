@@ -1,5 +1,6 @@
 const API_URL = 'http://192.168.18.32:3000/api';
 
+//Finish OK
 export const getAllSfps = async () => {
   try {
     const response = await fetch(`${API_URL}/allTransceivers`);
