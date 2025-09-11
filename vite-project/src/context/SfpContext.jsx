@@ -14,7 +14,6 @@ export default function SfpProvider({ children }) {
       } catch (error) {
         console.error("Failed to fetch SFPs:", error);
       }
-      console.log(data)
     };
     fetchSfps();
   }, []); 
