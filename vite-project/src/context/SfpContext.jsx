@@ -9,6 +9,7 @@ export default function SfpProvider({ children }) {
     const fetchSfps = async () => {
       try {
         const data = await getAllSfps();
+        console.log(data)
         setSfpArray(data);
       } catch (error) {
         console.error("Failed to fetch SFPs:", error);

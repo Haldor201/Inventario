@@ -1,6 +1,7 @@
-const API_URL = 'http://192.168.18.32:3000/api';
+const API_URL = 'http://localhost:3000/api';
 
 //Finish OK
+//http://192.168.18.32:3000/api
 export const getAllSfps = async () => {
   try {
     const response = await fetch(`${API_URL}/allTransceivers`);
@@ -8,6 +9,7 @@ export const getAllSfps = async () => {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
+    
     return data;
   } catch (error) {
     console.error('Error fetching SFPs:', error);
