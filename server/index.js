@@ -1,5 +1,6 @@
 import express from "express"
 import transceiversRoutes from "./routes/transceiversRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 import connectDB from "./db/dbConection.js";
 import cors from "cors"
 const app = express();
@@ -13,6 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api",transceiversRoutes);
+app.use("")
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

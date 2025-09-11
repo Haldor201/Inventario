@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const { Schema, model } = mongoose;
 
@@ -7,7 +8,7 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true, // Asegura que el correo electrónico sea único
       trim: true,
       lowercase: true,
     },
@@ -27,3 +28,22 @@ const userSchema = new Schema(
     timestamps: true, // Agrega automáticamente los campos 'createdAt' y 'updatedAt'
   }
 );
+
+// Middleware para encriptar la contraseña antes de guardar el usuario
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// Método para comparar la contraseña ingresada con la encriptada
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
+
+const User = model('User', userSchema);
+
+export default User;
