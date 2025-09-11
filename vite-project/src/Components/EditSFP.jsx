@@ -2,40 +2,40 @@
 import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import editSVG from "../icons/edit.svg";
-import { SfpContext } from '../context/SfpContext';   
+import { SfpContext } from '../context/SfpContext';
 
 export default function EditSFP({ sfp }) {
-  const { editSfp } = useContext(SfpContext); 
+  const { editSfp } = useContext(SfpContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentSerialNumber, setCurrentSerialNumber] = useState("");
 
   const [formData, setFormData] = useState({
-    id: "",
+    _id: "", // Use _id to match MongoDB
     p_n: "",
     descripcion: "",
-    state: "", // Added state field
     s_n: [],
     cantidad: 0,
     p_a: "",
+    state: "", // Add the state field
     marca: "",
   });
 
   useEffect(() => {
     if (sfp) {
       setFormData({
-        id: sfp.id,
+        _id: sfp._id, // Set the _id from the SFP prop
         p_n: sfp.p_n,
         descripcion: sfp.descripcion,
-        state: sfp.state || "New", // Set initial state from sfp.state or default to "New"
         s_n: sfp.s_n || [],
         cantidad: sfp.cantidad || 0,
         p_a: sfp.p_a,
+        state: sfp.state, // Set the state from the SFP prop
         marca: sfp.marca,
       });
     }
-  }, [show, sfp]);
+  }, [sfp, show]); // Add sfp and show to the dependency array
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -72,14 +72,13 @@ export default function EditSFP({ sfp }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (formData.s_n.some((serial) => serial.trim() === "")) {
       alert("Error: No se permiten serial numbers vacíos.");
       return;
     }
 
-    // Call the context function to update the data
-    editSfp(formData);
+    // Call the context function to update the data, passing the _id and the data object
+    editSfp(formData._id, formData);
 
     handleClose();
   };
@@ -104,9 +103,7 @@ export default function EditSFP({ sfp }) {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Part Number
-              </Form.Label>
+              <Form.Label column sm="4">Part Number</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
@@ -118,9 +115,7 @@ export default function EditSFP({ sfp }) {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Descripción
-              </Form.Label>
+              <Form.Label column sm="4">Descripción</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
@@ -132,9 +127,7 @@ export default function EditSFP({ sfp }) {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Cantidad
-              </Form.Label>
+              <Form.Label column sm="4">Cantidad</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="number"
@@ -147,9 +140,7 @@ export default function EditSFP({ sfp }) {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Serial Number
-              </Form.Label>
+              <Form.Label column sm="4">Serial Number</Form.Label>
               <Col sm="6">
                 <Form.Control
                   type="text"
@@ -191,34 +182,31 @@ export default function EditSFP({ sfp }) {
               </div>
             )}
             
-            {/* Nuevo Campo: Estado (New/Refurbished) */}
+            {/* NEW FIELD: Estado (New/Refurbished) */}
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Estado
-              </Form.Label>
+              <Form.Label column sm="4">Estado</Form.Label>
               <Col sm="8">
                 <Form.Select
                   name="state"
                   value={formData.state}
                   onChange={handleChange}
                 >
+                  <option value="">Seleccione...</option>
                   <option value="New">New</option>
                   <option value="Refurbished">Refurbished</option>
                 </Form.Select>
               </Col>
             </Form.Group>
 
-            {/* Campo: Producción o Almacén */}
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Producción o Almacén
-              </Form.Label>
+              <Form.Label column sm="4">Producción o Almacén</Form.Label>
               <Col sm="8">
                 <Form.Select
                   name="p_a"
                   value={formData.p_a}
                   onChange={handleChange}
                 >
+                  <option value="">Seleccione...</option>
                   <option value="Producción">Producción</option>
                   <option value="Almacén">Almacén</option>
                 </Form.Select>
@@ -226,9 +214,7 @@ export default function EditSFP({ sfp }) {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Marca
-              </Form.Label>
+              <Form.Label column sm="4">Marca</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"

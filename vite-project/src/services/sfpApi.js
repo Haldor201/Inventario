@@ -35,10 +35,10 @@ export const addSfpT = async (sfpData) => {
   }
 };
 
-export const editSfp = async (id, sfpData) => {
+export const editSfpt = async (id, sfpData) => {
   try {
     const response = await fetch(`${API_URL}/editTransceiver/${id}`, {
-      method: 'PUT',
+      method: 'PATCH', 
       headers: {
         'Content-Type': 'application/json',
       },
@@ -56,7 +56,7 @@ export const editSfp = async (id, sfpData) => {
   }
 };
 
-export const deleteSfp = async (id) => {
+export const deleteSfpt = async (id) => {
   try {
     const response = await fetch(`${API_URL}/deleteTransceiver/${id}`, {
       method: 'DELETE',

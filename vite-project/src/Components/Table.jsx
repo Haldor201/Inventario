@@ -27,8 +27,8 @@ function Table_P() {
         </thead>
         <tbody>
           {sfpArray.map((sfp) => (
-            <tr key={sfp.id}>
-              <td>{sfp.id}</td>
+            <tr key={sfp._id}>
+              <td>{sfp._id}</td>
               <td>{sfp.p_n}</td>
               <td>{sfp.state}</td>
               <td>{sfp.descripcion}</td>
@@ -42,8 +42,8 @@ function Table_P() {
               <td>{sfp.marca}</td>
               <td>
                 <EditSFP sfp={sfp}></EditSFP>
-                <DeleteSFP id={sfp.id}></DeleteSFP>
-              </td>
+                <DeleteSFP id={sfp._id}></DeleteSFP>
+              </td>   
             </tr>
           ))}
         </tbody>
