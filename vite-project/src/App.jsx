@@ -8,13 +8,13 @@ import Devices from './Routes/Devices.jsx';
 import Logs from './Routes/Logs.jsx';
 import Account from './Routes/Account.jsx';
 import { Route, Routes } from 'react-router-dom';
-import SfpProvider from './context/SfpContext.jsx';
+import SfpProvider from './context/GeneralContext.jsx';
+
 
 function App() {
   return (
-    <>
+    <><SfpProvider>
       <Nav_P/>
-      <SfpProvider>
         <Routes>
           <Route path='/' element={<Login/>}></Route>
           <Route path='/Transceivers' element={<Transceivers/>}></Route>

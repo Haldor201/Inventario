@@ -1,14 +1,16 @@
 import Table from "react-bootstrap/Table";
 import EditSFP from "../Components/EditSFP.jsx";
 import DeleteSFP from "../Components/DeleteSFP.jsx";
-import { useContext } from "react";
-import { SfpContext } from '../context/SfpContext.jsx'
+import { useContext, useEffect } from "react";
+import { SfpContext } from '../context/GeneralContext.jsx'
 
 
 
 function Table_P() {
-  const { sfpArray } = useContext(SfpContext);
-  console.log(sfpArray)
+  const { sfpArray,fetchSfps } = useContext(SfpContext);
+  useEffect(()=>{
+    fetchSfps();
+  },[])
   return (
     <>
       <Table striped bordered hover className="container mt-3" variant="dark">

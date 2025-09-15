@@ -1,5 +1,5 @@
 import { Router } from "express";
-import mongoose from "mongoose";
+import validateAuth from "../Middleware/authMiddleware.js";
 import jwt from 'jsonwebtoken';
 import user from "../models/user.js"; 
 const router = Router();
@@ -24,7 +24,7 @@ router.post('/login', async (req, res) => {
         }
 
         // 1. Crear el payload del token (información que quieres guardar)
-        const payload = { userId: foundUser._id, role: foundUser.role };
+        const payload = { userId: foundUser._id, role: foundUser.role, email:foundUser.email };
 
         // 2. Firmar el token con la clave secreta
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -59,7 +59,7 @@ router.post('/register', async (req, res) => {
         const newUser = new user({ name, email, password });
         await newUser.save();
 
-        const payload = { userId: newUser._id, role: newUser.role };
+        const payload = { userId: newUser._id, role: newUser.role,role:newUser.email };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -85,5 +85,19 @@ router.post('/logout', (req, res) => {
 
     res.status(200).json({ message: "Sesión cerrada con éxito." });
 });
+
+router.get('/profile', validateAuth, (req, res) => {
+    try {
+        const { email, role } = req.user;
+        res.status(200).json({
+            email,
+            role
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "Error en el servidor.", error: error.message });
+    }
+});
+
 
 export default router;

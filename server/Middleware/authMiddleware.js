@@ -6,7 +6,7 @@ const validateAuth = (req, res, next) => {
         const token = req.cookies.auth_token;
 
         if (!token) {
-            return res.status(401).json({ message: "No se proporcionó token de autenticación." });
+            return res.status(401).json({ message: "You need Login." });
         }
 
         // 2. Verificar el token usando la clave secreta

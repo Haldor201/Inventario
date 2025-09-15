@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
-import { SfpContext, } from "../context/SfpContext";
+import { SfpContext, } from "../context/GeneralContext";
 
 export default function AddSFP() {
   const [show, setShow] = useState(false);

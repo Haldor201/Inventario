@@ -1,6 +1,6 @@
 import deleteSVG from "../icons/delete.svg";
 import { useContext } from "react";
-import {SfpContext} from '../context/SfpContext.jsx'
+import {SfpContext} from '../context/GeneralContext.jsx'
 
 export default function DeleteSFP({id}) {
     const {deleteSfp} = useContext(SfpContext);

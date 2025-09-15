@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Table, Dropdown } from 'react-bootstrap'; // <-- Import Table
-import { SfpContext } from '../context/SfpContext';
+import { SfpContext } from '../context/GeneralContext.jsx';
 import EditSFP from "../Components/EditSFP.jsx";
 import DeleteSFP from "../Components/DeleteSFP.jsx";
 

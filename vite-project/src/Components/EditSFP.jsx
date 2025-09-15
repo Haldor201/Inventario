@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import editSVG from "../icons/edit.svg";
-import { SfpContext } from '../context/SfpContext';
+import { SfpContext } from '../context/GeneralContext';
 
 export default function EditSFP({ sfp }) {
   const { editSfp } = useContext(SfpContext);
