@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/users';
+const API_URL = 'http://192.168.18.32:3000/users';
 
 //Finish OK
 //http://192.168.18.32:3000/api

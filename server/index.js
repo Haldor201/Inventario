@@ -7,7 +7,7 @@ import cors from "cors"
 import cookieParser from 'cookie-parser';
 const app = express();
 const port = 3000;
-const origin='http://localhost:5173';
+const origin='http://192.168.18.32:5173';
 
 connectDB();
 app.use(cookieParser());
