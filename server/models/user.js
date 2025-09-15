@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
-  {
+  { 
     email: {
       type: String,
       required: true,

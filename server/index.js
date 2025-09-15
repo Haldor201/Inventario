@@ -1,12 +1,16 @@
+import 'dotenv/config';
 import express from "express"
 import transceiversRoutes from "./routes/transceiversRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import connectDB from "./db/dbConection.js";
 import cors from "cors"
+import cookieParser from 'cookie-parser';
 const app = express();
 const port = 3000;
 
+
 connectDB();
+app.use(cookieParser());
 app.use(express.json())
 app.use(cors())
 app.get('/', (req, res) => {
@@ -14,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api",transceiversRoutes);
-app.use("")
+app.use("/users",userRoutes)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

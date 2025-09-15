@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import Sfp from '../models/sfp.js';
+import validateAuth from '../Middleware/authMiddleware.js';
 const router = Router()
 import mongoose from 'mongoose';
 
@@ -12,7 +13,7 @@ const capitalizeFirstLetter = (string) => {
 
 
 // POST route to add a new SFP
-router.post('/addTransceivers', async (req, res) => {
+router.post('/addTransceivers',validateAuth, async (req, res) => {
   let sfpNew = req.body;
 
   try {
@@ -55,7 +56,7 @@ router.post('/addTransceivers', async (req, res) => {
 
 
 // Get route to select all data
-router.get('/allTransceivers', async (req, res) => {
+router.get('/allTransceivers',validateAuth, async (req, res) => {
   try {
     const allSfp = await Sfp.find()
     
@@ -71,7 +72,7 @@ router.get('/allTransceivers', async (req, res) => {
 });
 
 // PUT route to edit an existing SFP
-router.patch('/editTransceiver/:id', async (req, res) => {
+router.patch('/editTransceiver/:id',validateAuth, async (req, res) => {
   const { id } = req.params;  
   const updatedData = req.body;
   console.log(updatedData)
@@ -104,7 +105,7 @@ router.patch('/editTransceiver/:id', async (req, res) => {
 });
 
 // DELETE route to delete an SFP
-router.delete('/deleteTransceiver/:id', async (req, res) => {
+router.delete('/deleteTransceiver/:id',validateAuth, async (req, res) => {
   const { id } = req.params;
 
   try {
