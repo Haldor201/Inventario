@@ -8,16 +8,15 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true, // Asegura que el correo electrónico sea único
+      unique: true,
       trim: true,
       lowercase: true,
     },
     password: {
       type: String,
       required: true,
-      minlength: 6, // Longitud mínima para la contraseña
+      minlength: 6, 
     },
-    // Puedes añadir otros campos como 'role', 'isActive', etc.
     role: {
       type: String,
       enum: ['user', 'admin'],
@@ -25,7 +24,7 @@ const userSchema = new Schema(
     },
   },
   {
-    timestamps: true, // Agrega automáticamente los campos 'createdAt' y 'updatedAt'
+    timestamps: true,
   }
 );
 
